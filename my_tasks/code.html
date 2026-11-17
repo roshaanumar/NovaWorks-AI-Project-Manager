@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'tertiary-fixed': '#d8e2ff', 'surface-container-high': '#dce9ff', 'inverse-surface': '#213145', 'surface-bright': '#f8f9ff', 'primary-fixed-dim': '#c3c0ff', 'surface': '#f8f9ff', 'on-tertiary-fixed': '#001a42', 'inverse-primary': '#c3c0ff', 'surface-container-highest': '#d3e4fe', 'surface-container-low': '#eff4ff', 'primary-fixed': '#e2dfff', 'on-primary': '#ffffff', 'on-error-container': '#93000a', 'primary-container': '#4f46e5', 'on-primary-container': '#dad7ff', 'on-secondary-fixed': '#131b2e', 'secondary-fixed': '#dae2fd', 'inverse-on-surface': '#eaf1ff', 'on-secondary-container': '#5c647a', 'background': '#f8f9ff', 'error-container': '#ffdad6', 'on-primary-fixed-variant': '#3323cc', 'on-secondary': '#ffffff', 'surface-variant': '#d3e4fe', 'outline-variant': '#c7c4d8', 'on-error': '#ffffff', 'on-primary-fixed': '#0f0069', 'on-tertiary-fixed-variant': '#004395', 'tertiary': '#004598', 'surface-container': '#e5eeff', 'on-surface-variant': '#464555', 'surface-container-lowest': '#ffffff', 'on-background': '#0b1c30', 'primary': '#3525cd', 'tertiary-container': '#005cc6', 'on-tertiary-container': '#cedbff', 'surface-dim': '#cbdbf5', 'secondary': '#565e74', 'outline': '#777587', 'on-tertiary': '#ffffff', 'error': '#ba1a1a', 'secondary-container': '#dae2fd', 'surface-tint': '#4d44e3', 'on-surface': '#0b1c30', 'tertiary-fixed-dim': '#adc6ff', 'on-secondary-fixed-variant': '#3f465c', 'secondary-fixed-dim': '#bec6e0' }, borderRadius: { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, spacing: { 'space-lg': '1.5rem', 'space-md': '1rem', 'margin-mobile': '1rem', 'space-xl': '2rem', 'gutter': '1.5rem', 'gutter-mobile': '1rem', 'space-sm': '0.5rem', 'space-xs': '0.25rem', 'margin': '2rem' }, fontFamily: { 'body-md': ['Inter'], 'caption-code': ['Inter'], 'display-hero': ['Plus Jakarta Sans'], 'headline-sm': ['Plus Jakarta Sans'], 'headline-xl-mobile': ['Plus Jakarta Sans'], 'headline-xl': ['Plus Jakarta Sans'], 'display-hero-mobile': ['Plus Jakarta Sans'], 'body-sm': ['Inter'], 'label-sm': ['Inter'], 'headline-md': ['Plus Jakarta Sans'], 'label-md': ['Inter'], 'body-lg': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'] }, fontSize: { 'body-md': ['0.9375rem', { lineHeight: '1.5rem', letterSpacing: '0em', fontWeight: '400' }], 'caption-code': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.02em', fontWeight: '500' }], 'display-hero': ['3.5rem', { lineHeight: '4.25rem', letterSpacing: '-0.025em', fontWeight: '700' }], 'headline-sm': ['1rem', { lineHeight: '1.5rem', letterSpacing: '0em', fontWeight: '600' }], 'headline-xl-mobile': ['1.75rem', { lineHeight: '2.25rem', letterSpacing: '-0.015em', fontWeight: '600' }], 'headline-xl': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em', fontWeight: '700' }], 'display-hero-mobile': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em', fontWeight: '700' }], 'body-sm': ['0.8125rem', { lineHeight: '1.25rem', letterSpacing: '0.005em', fontWeight: '400' }], 'label-sm': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.025em', fontWeight: '600' }], 'headline-md': ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em', fontWeight: '600' }], 'label-md': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em', fontWeight: '500' }], 'body-lg': ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em', fontWeight: '400' }], 'headline-lg': ['1.75rem', { lineHeight: '2.25rem', letterSpacing: '-0.015em', fontWeight: '600' }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-space-md flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0 flex-1"><img alt="NovaWorks AI Logo" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrAX5CtDCsChQBuOhOK_zicnrOtbwxEHOEsrKzSneA8bvmhQM2vB2Zy4naLSjWap1PQEFEWZWlFBzjKViljJpy42wQzzgrzpunNUeuIx-zyD2bRTBi5XjqgJh3cF6OAm0KIOTT3N3P4GcbKbn_hO0A2lezafEDaJEEv6lQ2ipsztV49KYN0teqcxl83GtFD81B3Jvo_TrKVNz4daAIAe1OCLv50LAosNJQoDkJ1wtsI"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-label-md text-label-md font-bold text-on-surface truncate">Acme Corp Dev</span><span class="material-symbols-outlined text-outline text-[18px]">expand_more</span></div><span class="font-caption-code text-caption-code text-on-surface-variant truncate">My Tasks</span></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><button aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Profile menu" class="w-11 h-11 flex items-center justify-center rounded-full"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3KUZQ0IlyD4abCDIp5ITMO5h8zaT8EM3yHGwkgrldwFr3_gWjE-t3P4ePrsMvW85ve1crYSSIhPrdTtl3dmW2b2mgZjzjYS9o9f4y7fy9z2281tGPXdfip-BNg8SG_cPKczvlkaVwUIhfo5LqIEy2efE2qPw1qTQO8qAJCcDqNwBB-U37XzyPJZpmqLiuNP4LJ_wUlBpvM1m2ins1M8aBhGjYsn99xLDdMOyioxc"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-20 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Greeting & Context Card -->
+<div class="px-space-md pt-space-md pb-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex flex-col min-w-0">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface tracking-tight">My Tasks</h1>
+<p class="font-body-sm text-body-sm text-secondary truncate flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+          Logged in as <span class="font-semibold text-on-surface">David Kim</span> (Lead Backend Engineer)
+        </p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2.5 py-1 rounded-full text-primary">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span class="font-label-sm text-label-sm">High Velocity</span>
+</div>
+</div>
+</div>
+<!-- Workload Overview Banner with ambient AI gradient -->
+<div class="px-space-md py-space-xs">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-md shadow-sm">
+<div class="absolute -right-10 -bottom-10 w-32 h-32 rounded-full bg-primary-fixed-dim/30 blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Workload Health</span>
+<span class="material-symbols-outlined text-[14px] text-tertiary-container">speed</span>
+</div>
+<span class="font-caption-code text-caption-code text-primary font-semibold bg-primary-fixed/40 px-2 py-0.5 rounded-full">Sprint 3 (Day 7)</span>
+</div>
+<!-- Quick Metrics Strip -->
+<div class="grid grid-cols-4 gap-2 text-center">
+<div class="flex flex-col items-center bg-surface-container-low/70 py-2 px-1 rounded-lg">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">5</span>
+<span class="font-caption-code text-caption-code text-secondary text-[10px] uppercase mt-0.5">Assigned</span>
+</div>
+<div class="flex flex-col items-center bg-surface-container-low/70 py-2 px-1 rounded-lg">
+<span class="font-headline-md text-headline-md text-primary font-bold">24h</span>
+<span class="font-caption-code text-caption-code text-secondary text-[10px] uppercase mt-0.5">Allocated</span>
+</div>
+<div class="flex flex-col items-center bg-surface-container-low/70 py-2 px-1 rounded-lg">
+<span class="font-headline-md text-headline-md text-tertiary font-bold">2</span>
+<span class="font-caption-code text-caption-code text-secondary text-[10px] uppercase mt-0.5">Due Soon</span>
+</div>
+<div class="flex flex-col items-center bg-error-container/60 py-2 px-1 rounded-lg">
+<span class="font-headline-md text-headline-md text-error font-bold">1</span>
+<span class="font-caption-code text-caption-code text-on-error-container text-[10px] uppercase mt-0.5 font-semibold">Blocker</span>
+</div>
+</div>
+<!-- Interactive Progress Visual -->
+<div class="mt-space-md pt-space-xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-caption-code font-caption-code">
+<span class="text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> 9h Logged this week
+          </span>
+<span class="text-primary font-semibold">37.5% Completed</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden flex">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 37.5%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Segmented Control Horizontal Scroll -->
+<div class="px-space-md pt-space-sm pb-space-xs">
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1.5 no-scrollbar" id="statusFilterBar">
+<button class="filter-tab active px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow-sm whitespace-nowrap flex items-center gap-1.5 transition-all">
+<span>In Progress</span>
+<span class="bg-primary-container text-on-primary px-1.5 py-0.2 rounded-full text-[10px] font-bold">2</span>
+</button>
+<button class="filter-tab px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-secondary font-label-sm text-label-sm shadow-sm whitespace-nowrap flex items-center gap-1.5 hover:bg-surface-container-high transition-all">
+<span>To Do</span>
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.2 rounded-full text-[10px] font-bold">2</span>
+</button>
+<button class="filter-tab px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-secondary font-label-sm text-label-sm shadow-sm whitespace-nowrap flex items-center gap-1.5 hover:bg-surface-container-high transition-all">
+<span>Under Review</span>
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.2 rounded-full text-[10px] font-bold">1</span>
+</button>
+<button class="filter-tab px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-secondary font-label-sm text-label-sm shadow-sm whitespace-nowrap flex items-center gap-1.5 hover:bg-surface-container-high transition-all">
+<span>Completed</span>
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.2 rounded-full text-[10px] font-bold">8</span>
+</button>
+</div>
+</div>
+<!-- Developer Task Cards Feed -->
+<div class="px-space-md flex flex-col gap-space-md pb-space-xl">
+<!-- CARD 1: High Focus / Urgent -->
+<div class="relative bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-3 transition-transform active:scale-[0.995]">
+<!-- Focus Glow Indicator -->
+<div class="absolute -top-1 -right-1 flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-error"></span>
+</div>
+<!-- Top Row Badges -->
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-primary">account_tree</span>
+<span class="font-label-sm text-label-sm font-semibold truncate max-w-[170px]">Apex Capital • Sprint 3</span>
+</div>
+<div class="flex items-center gap-1 bg-error-container text-on-error-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+<span>Nov 06 (Tomorrow)</span>
+</div>
+</div>
+<!-- Title & Technical Description -->
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">KYC Webhook Retry Mechanism</h2>
+<p class="font-body-sm text-body-sm text-secondary">Handle status code 504 and 429 timeouts with Celery exponential retry delay.</p>
+</div>
+<!-- AI Provenance Pill -->
+<div class="flex items-center gap-2 bg-gradient-to-r from-primary-fixed/50 via-surface-container-low to-surface-container-lowest px-3 py-1.5 rounded-lg text-primary">
+<span class="material-symbols-outlined text-[16px] text-primary-container animate-pulse">auto_awesome</span>
+<div class="flex items-center justify-between w-full min-w-0">
+<span class="font-caption-code text-caption-code font-semibold truncate">Linked: Extracted from Audio @ 04:12</span>
+<button class="font-caption-code text-caption-code text-primary underline ml-2 flex-shrink-0" onclick="alert('Snippet Audio:\nDavid: \'We need Celery backoff for KYC timeouts when Persona API 504s.\'')">Play</button>
+</div>
+</div>
+<!-- Progress & Hours Bar -->
+<div class="bg-surface-container-low p-2.5 rounded-lg flex flex-col gap-1.5">
+<div class="flex items-center justify-between font-caption-code text-caption-code">
+<span class="text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Logged Time
+          </span>
+<span class="font-bold text-on-surface">8h / 12h (66%)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 66%"></div>
+</div>
+</div>
+<!-- Card Actions -->
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors" id="btnLogQuickTime">
+<span class="material-symbols-outlined text-[16px]">add_alarm</span>
+<span>Log Time (+2h)</span>
+</button>
+<button class="flex-1 py-2 px-3 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-[0.98]" id="btnMarkReview">
+<span class="material-symbols-outlined text-[16px]">rate_review</span>
+<span>Ready for Review</span>
+</button>
+</div>
+</div>
+<!-- CARD 2: Active Task with Live Timer Action -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-3 transition-transform active:scale-[0.995]">
+<!-- Top Row Badges -->
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-tertiary">polyline</span>
+<span class="font-label-sm text-label-sm font-semibold truncate max-w-[170px]">Apex Capital • Core API</span>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container text-on-secondary-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Nov 08</span>
+</div>
+</div>
+<!-- Title & Technical Description -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">Stripe Webhook Signature Verification</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Validate sha256 HMAC headers before passing payloads to Kafka queue.</p>
+</div>
+<!-- Metadata Tag Strip -->
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 text-[11px] font-caption-code bg-surface-container px-2 py-0.5 rounded text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[12px] text-secondary">flag</span> Priority: Medium
+        </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-caption-code bg-surface-container px-2 py-0.5 rounded text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[12px] text-secondary">timelapse</span> Est: 6 hrs
+        </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-caption-code bg-primary-fixed/60 px-2 py-0.5 rounded text-on-primary-fixed font-bold">
+          Logged: 1h / 6h
+        </span>
+</div>
+<!-- Interactive Timer Action Button -->
+<div class="pt-1">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold flex items-center justify-between transition-colors" id="btnToggleTimer">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary" id="timerPulseDot"></span>
+<span id="timerLabel">Start Active Timer</span>
+</div>
+<div class="flex items-center gap-1 text-primary">
+<span class="font-caption-code text-caption-code font-bold tabular-nums" id="timerDisplay">00:00:00</span>
+<span class="material-symbols-outlined text-[18px]" id="timerIcon">play_circle</span>
+</div>
+</button>
+</div>
+</div>
+<!-- CARD 3: Queue/Low Priority Task -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-3 transition-transform active:scale-[0.995]">
+<!-- Top Row Badges -->
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-secondary">hub</span>
+<span class="font-label-sm text-label-sm font-semibold truncate max-w-[170px]">Omnilog Freight • IoT Gateway</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container text-secondary px-2.5 py-0.5 rounded-full font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">event</span>
+<span>Nov 12</span>
+</div>
+</div>
+<!-- Title & Technical Description -->
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">MQTT Telemetry Ingestion Buffer Fix</h2>
+<p class="font-body-sm text-body-sm text-secondary">Resolve packet drop issue during sudden high sensor concurrency bursts.</p>
+</div>
+<!-- Metadata Tag Strip -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-caption-code bg-surface-container px-2 py-0.5 rounded text-secondary font-medium">
+<span class="material-symbols-outlined text-[12px]">low_priority</span> Low
+          </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-caption-code bg-surface-container px-2 py-0.5 rounded text-secondary font-medium">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 8 hrs
+          </span>
+</div>
+<button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 py-1 px-2 rounded-lg bg-surface-container-low">
+<span>Assign Specs</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Quick Floating Action Dock (Assistant & Time Logger) -->
+<div class="sticky bottom-4 z-40 flex items-center justify-between gap-2 bg-inverse-surface/90 text-inverse-on-surface backdrop-blur-xl p-2 rounded-2xl shadow-xl">
+<div class="flex items-center gap-2 pl-2">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold text-surface-bright leading-none">Task Assistant</span>
+<span class="font-caption-code text-caption-code text-surface-dim text-[10px]">AI Decomposition ready</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 shadow-sm active:scale-95 transition-transform" id="btnAiBreakdown">
+<span class="material-symbols-outlined text-[15px]">auto_fix_high</span>
+<span>Breakdown</span>
+</button>
+<button aria-label="Quick Log Work" class="w-9 h-9 rounded-xl bg-surface-container-highest text-on-surface flex items-center justify-center hover:bg-surface-container-high active:scale-95 transition-transform" id="btnQuickLogModal">
+<span class="material-symbols-outlined text-[18px]">more_time</span>
+</button>
+</div>
+</div>
+<!-- Interactive Feedback Toast (Hidden by default) -->
+<div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-label-sm font-label-sm transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-2" id="actionToast">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]" id="toastIcon">check_circle</span>
+<span id="toastMessage">Success</span>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive client-side logic for developer ergonomics
+  (function initMyTasksInteractions() {
+    const filterButtons = document.querySelectorAll('#statusFilterBar .filter-tab');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary');
+          b.classList.add('bg-surface-container-lowest', 'text-secondary');
+          const counter = b.querySelector('span:last-child');
+          if (counter) {
+            counter.className = 'bg-surface-container text-on-surface-variant px-1.5 py-0.2 rounded-full text-[10px] font-bold';
+          }
+        });
+        btn.classList.add('bg-primary', 'text-on-primary');
+        btn.classList.remove('bg-surface-container-lowest', 'text-secondary');
+        const activeCounter = btn.querySelector('span:last-child');
+        if (activeCounter) {
+          activeCounter.className = 'bg-primary-container text-on-primary px-1.5 py-0.2 rounded-full text-[10px] font-bold';
+        }
+      });
+    });
+
+    // Toast helper
+    function showToast(msg, icon = 'check_circle') {
+      const toast = document.getElementById('actionToast');
+      const toastMsg = document.getElementById('toastMessage');
+      const toastIcon = document.getElementById('toastIcon');
+      if (!toast || !toastMsg) return;
+      toastMsg.innerText = msg;
+      toastIcon.innerText = icon;
+      toast.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2400);
+    }
+
+    // Quick Log Action
+    const btnLogQuickTime = document.getElementById('btnLogQuickTime');
+    if (btnLogQuickTime) {
+      btnLogQuickTime.addEventListener('click', () => {
+        showToast('+2.0 hours logged to KYC Webhook Retry');
+      });
+    }
+
+    // Mark Ready for Review
+    const btnMarkReview = document.getElementById('btnMarkReview');
+    if (btnMarkReview) {
+      btnMarkReview.addEventListener('click', () => {
+        showToast('Moved to "Under Review" • PR linked', 'mark_email_read');
+      });
+    }
+
+    // Timer toggling
+    let timerRunning = false;
+    let timerSeconds = 3600; // start from 1 hr
+    let timerInterval = null;
+    const btnToggleTimer = document.getElementById('btnToggleTimer');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerLabel = document.getElementById('timerLabel');
+    const timerIcon = document.getElementById('timerIcon');
+    const timerPulseDot = document.getElementById('timerPulseDot');
+
+    function formatTime(totalSec) {
+      const hrs = Math.floor(totalSec / 3600).toString().padStart(2, '0');
+      const mins = Math.floor((totalSec % 3600) / 60).toString().padStart(2, '0');
+      const secs = (totalSec % 60).toString().padStart(2, '0');
+      return `${hrs}:${mins}:${secs}`;
+    }
+
+    if (btnToggleTimer) {
+      btnToggleTimer.addEventListener('click', () => {
+        timerRunning = !timerRunning;
+        if (timerRunning) {
+          timerLabel.innerText = 'Tracking Stripe Task...';
+          timerIcon.innerText = 'pause_circle';
+          timerPulseDot.className = 'w-2.5 h-2.5 rounded-full bg-error animate-ping';
+          btnToggleTimer.classList.add('bg-primary-fixed/20');
+          showToast('Timer started for Core API task', 'play_arrow');
+          timerInterval = setInterval(() => {
+            timerSeconds++;
+            if (timerDisplay) timerDisplay.innerText = formatTime(timerSeconds);
+          }, 1000);
+        } else {
+          clearInterval(timerInterval);
+          timerLabel.innerText = 'Resume Timer';
+          timerIcon.innerText = 'play_circle';
+          timerPulseDot.className = 'w-2.5 h-2.5 rounded-full bg-secondary';
+          btnToggleTimer.classList.remove('bg-primary-fixed/20');
+          showToast(`Timer paused at ${formatTime(timerSeconds)}`, 'pause');
+        }
+      });
+    }
+
+    // Floating Assistant Breakdown
+    const btnAiBreakdown = document.getElementById('btnAiBreakdown');
+    if (btnAiBreakdown) {
+      btnAiBreakdown.addEventListener('click', () => {
+        showToast('AI Breakdown: 3 sub-tasks generated from transcript!', 'auto_awesome');
+      });
+    }
+
+    const btnQuickLogModal = document.getElementById('btnQuickLogModal');
+    if (btnQuickLogModal) {
+      btnQuickLogModal.addEventListener('click', () => {
+        showToast('Timesheet quick-entry opened', 'history_toggle_off');
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-4px_16px_rgba(11,28,48,0.05)]" data-active-classes="text-primary font-semibold"><div class="flex items-center justify-around h-16 px-space-xs"><a class="flex-1 min-w-0 h-11 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant transition-colors" data-path="admin-dashboard" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-caption-code text-caption-code text-[11px] truncate">Home</span></a><a class="flex-1 min-w-0 h-11 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant transition-colors" data-path="projects-directory" href="#"><span class="material-symbols-outlined text-[22px]">folder_managed</span><span class="font-caption-code text-caption-code text-[11px] truncate">Projects</span></a><a class="relative -top-3 flex flex-col items-center justify-center" data-path="ai-transcript-to-project" href="#"><div class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-primary-container text-on-primary flex items-center justify-center shadow-[0_0_16px_rgba(79,70,229,0.45)] active:scale-95 transition-transform"><span class="material-symbols-outlined text-[24px]">auto_awesome</span></div><span class="font-caption-code text-caption-code text-[10px] text-primary font-semibold mt-0.5">AI Import</span></a><a aria-current="page" class="flex-1 min-w-0 h-11 flex flex-col items-center justify-center gap-0.5 transition-colors text-primary font-semibold" data-path="my-tasks" href="#"><span class="material-symbols-outlined text-[22px]">task_alt</span><span class="font-caption-code text-caption-code text-[11px] truncate">My Tasks</span></a><a class="flex-1 min-w-0 h-11 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant transition-colors" data-path="team-directory" href="#"><span class="material-symbols-outlined text-[22px]">groups</span><span class="font-caption-code text-caption-code text-[11px] truncate">Team</span></a></div></nav></body></html>

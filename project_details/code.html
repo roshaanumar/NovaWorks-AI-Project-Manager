@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'tertiary-fixed': '#d8e2ff', 'surface-container-high': '#dce9ff', 'inverse-surface': '#213145', 'surface-bright': '#f8f9ff', 'primary-fixed-dim': '#c3c0ff', 'surface': '#f8f9ff', 'on-tertiary-fixed': '#001a42', 'inverse-primary': '#c3c0ff', 'surface-container-highest': '#d3e4fe', 'surface-container-low': '#eff4ff', 'primary-fixed': '#e2dfff', 'on-primary': '#ffffff', 'on-error-container': '#93000a', 'primary-container': '#4f46e5', 'on-primary-container': '#dad7ff', 'on-secondary-fixed': '#131b2e', 'secondary-fixed': '#dae2fd', 'inverse-on-surface': '#eaf1ff', 'on-secondary-container': '#5c647a', 'background': '#f8f9ff', 'error-container': '#ffdad6', 'on-primary-fixed-variant': '#3323cc', 'on-secondary': '#ffffff', 'surface-variant': '#d3e4fe', 'outline-variant': '#c7c4d8', 'on-error': '#ffffff', 'on-primary-fixed': '#0f0069', 'on-tertiary-fixed-variant': '#004395', 'tertiary': '#004598', 'surface-container': '#e5eeff', 'on-surface-variant': '#464555', 'surface-container-lowest': '#ffffff', 'on-background': '#0b1c30', 'primary': '#3525cd', 'tertiary-container': '#005cc6', 'on-tertiary-container': '#cedbff', 'surface-dim': '#cbdbf5', 'secondary': '#565e74', 'outline': '#777587', 'on-tertiary': '#ffffff', 'error': '#ba1a1a', 'secondary-container': '#dae2fd', 'surface-tint': '#4d44e3', 'on-surface': '#0b1c30', 'tertiary-fixed-dim': '#adc6ff', 'on-secondary-fixed-variant': '#3f465c', 'secondary-fixed-dim': '#bec6e0' }, borderRadius: { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, spacing: { 'space-lg': '1.5rem', 'space-md': '1rem', 'margin-mobile': '1rem', 'space-xl': '2rem', 'gutter': '1.5rem', 'gutter-mobile': '1rem', 'space-sm': '0.5rem', 'space-xs': '0.25rem', 'margin': '2rem' }, fontFamily: { 'body-md': ['Inter'], 'caption-code': ['Inter'], 'display-hero': ['Plus Jakarta Sans'], 'headline-sm': ['Plus Jakarta Sans'], 'headline-xl-mobile': ['Plus Jakarta Sans'], 'headline-xl': ['Plus Jakarta Sans'], 'display-hero-mobile': ['Plus Jakarta Sans'], 'body-sm': ['Inter'], 'label-sm': ['Inter'], 'headline-md': ['Plus Jakarta Sans'], 'label-md': ['Inter'], 'body-lg': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'] }, fontSize: { 'body-md': ['0.9375rem', { lineHeight: '1.5rem', letterSpacing: '0em', fontWeight: '400' }], 'caption-code': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.02em', fontWeight: '500' }], 'display-hero': ['3.5rem', { lineHeight: '4.25rem', letterSpacing: '-0.025em', fontWeight: '700' }], 'headline-sm': ['1rem', { lineHeight: '1.5rem', letterSpacing: '0em', fontWeight: '600' }], 'headline-xl-mobile': ['1.75rem', { lineHeight: '2.25rem', letterSpacing: '-0.015em', fontWeight: '600' }], 'headline-xl': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em', fontWeight: '700' }], 'display-hero-mobile': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em', fontWeight: '700' }], 'body-sm': ['0.8125rem', { lineHeight: '1.25rem', letterSpacing: '0.005em', fontWeight: '400' }], 'label-sm': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.025em', fontWeight: '600' }], 'headline-md': ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em', fontWeight: '600' }], 'label-md': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em', fontWeight: '500' }], 'body-lg': ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em', fontWeight: '400' }], 'headline-lg': ['1.75rem', { lineHeight: '2.25rem', letterSpacing: '-0.015em', fontWeight: '600' }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-space-md flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs min-w-0 flex-1"><button aria-label="Go back" class="w-11 h-11 flex items-center justify-center -ml-2 rounded-full text-on-surface hover:text-primary transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back_ios_new</span></button><img alt="NovaWorks AI Logo" class="h-7 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrAX5CtDCsChQBuOhOK_zicnrOtbwxEHOEsrKzSneA8bvmhQM2vB2Zy4naLSjWap1PQEFEWZWlFBzjKViljJpy42wQzzgrzpunNUeuIx-zyD2bRTBi5XjqgJh3cF6OAm0KIOTT3N3P4GcbKbn_hO0A2lezafEDaJEEv6lQ2ipsztV49KYN0teqcxl83GtFD81B3Jvo_TrKVNz4daAIAe1OCLv50LAosNJQoDkJ1wtsI"/><div class="flex flex-col min-w-0 ml-1"><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Project Details</h1></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><button aria-label="More actions" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">more_vert</span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3KUZQ0IlyD4abCDIp5ITMO5h8zaT8EM3yHGwkgrldwFr3_gWjE-t3P4ePrsMvW85ve1crYSSIhPrdTtl3dmW2b2mgZjzjYS9o9f4y7fy9z2281tGPXdfip-BNg8SG_cPKczvlkaVwUIhfo5LqIEy2efE2qPw1qTQO8qAJCcDqNwBB-U37XzyPJZpmqLiuNP4LJ_wUlBpvM1m2ins1M8aBhGjYsn99xLDdMOyioxc"/></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe bg-surface"><div class="flex flex-col w-full pb-8">
+<!-- Back Action Breadcrumb -->
+<div class="px-space-md py-space-sm flex items-center">
+<button class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-surface-container-low text-primary hover:bg-surface-container transition-all active:scale-95" onclick="history.back()">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span class="font-label-md text-label-md font-medium">Back to Projects</span>
+</button>
+</div>
+<!-- Project Overview Bento Block -->
+<div class="px-space-md pt-space-xs">
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm relative overflow-hidden">
+<!-- Ambient Intelligence Glow Accent -->
+<div class="absolute -right-12 -top-12 w-36 h-36 bg-gradient-to-br from-primary/10 via-tertiary-container/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+<!-- Live Meta Badges -->
+<div class="flex flex-wrap items-center gap-2 mb-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Active Sprint 3
+        </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+          98% AI Match Fidelity
+        </span>
+</div>
+<!-- Project Title & Subtitle -->
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-2">
+        Apex KYC &amp; Webhook Overhaul
+      </h2>
+<div class="flex flex-col gap-1 text-on-surface-variant font-body-sm text-body-sm mb-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">domain</span>
+<span>Client: <strong class="text-on-surface font-semibold">Apex Capital Inc.</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">person_pin</span>
+<span>Manager: <strong class="text-on-surface font-semibold">Elena Rostova</strong></span>
+</div>
+</div>
+<!-- Micro Visual Progress Meter -->
+<div class="w-full bg-surface-container rounded-full h-2 mb-2 overflow-hidden flex">
+<div class="bg-primary h-full rounded-full transition-all duration-700 ease-out" style="width: 42.1%"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-caption-code text-caption-code mb-4">
+<span>Sprint Velocity (42% completed)</span>
+<span class="text-primary font-semibold">44h to target</span>
+</div>
+<!-- Quick Metrics Strip -->
+<div class="grid grid-cols-4 gap-2 pt-2 bg-surface-container-low/70 rounded-lg p-2.5">
+<div class="flex flex-col items-center text-center">
+<span class="font-caption-code text-caption-code text-on-surface-variant uppercase tracking-wider">Total</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5">76h</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="font-caption-code text-caption-code text-on-surface-variant uppercase tracking-wider">Burned</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold mt-0.5">32h</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="font-caption-code text-caption-code text-on-surface-variant uppercase tracking-wider">Tasks</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5">14</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="font-caption-code text-caption-code text-on-surface-variant uppercase tracking-wider">Left</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold mt-0.5">44h</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Filter Tabs -->
+<div class="px-space-md pt-5 pb-2">
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-headline-md text-headline-md text-on-surface">Sprint Tasks &amp; Deliverables</h3>
+<span class="font-caption-code text-caption-code text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full">Updated 14m ago</span>
+</div>
+<!-- Scrollable Tab Filter -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+<button class="px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md font-medium whitespace-nowrap shadow-sm">
+        All Tasks (14)
+      </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium whitespace-nowrap shadow-sm">
+        Backend (6)
+      </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium whitespace-nowrap shadow-sm">
+        Frontend (4)
+      </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium whitespace-nowrap shadow-sm">
+        Security (4)
+      </button>
+</div>
+</div>
+<!-- Task Card Stream -->
+<div class="px-space-md flex flex-col gap-3.5 mt-2">
+<!-- Task Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm hover:shadow-md transition-all relative overflow-hidden flex flex-col gap-3">
+<div class="flex items-start justify-between gap-3">
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+              High
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+              In Review
+            </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug">
+            KYC Webhook Retry Mechanism with Exponential Backoff
+          </h4>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Implement webhook worker to re-trigger failed KYC status pings up to 5 times.
+      </p>
+<!-- Logging Sparkline & Developer Profile -->
+<div class="bg-surface-container-low rounded-lg p-3 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="Close-up headshot of David Kim, a young professional Asian software developer with modern glasses and navy shirt against studio lighting with clean crisp finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrs4zvRQTFhojXvgeaSpZm54VZlZI_5s7tts8tYCIw8lX4XzJUGG3nhXvZUNAQHMY3vq6lga3TJ7E4hPr3_79XFAAjN6h_5RlRXzjAWDn9oSRa4GHH_aspuljDT_xRBUQzOlROHMiaDfo-_e0Yx516tjfZwHlbI43b8YI5R2UmHxtylAjK45OvQ7EdPgPfqsA-qAqj_6dxRFZ6Cin8PLYZLtzNbDqNr9yMUkg115o"/>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">David Kim</span>
+<span class="font-caption-code text-caption-code text-on-surface-variant">Lead Backend</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-caption-code text-caption-code">
+<span class="material-symbols-outlined text-[15px]">event</span>
+<span>Nov 06, 2025</span>
+</div>
+</div>
+<div class="pt-1 flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Est:</span>
+<span class="font-semibold text-on-surface">12 hrs</span>
+<span class="text-on-surface-variant font-caption-code text-caption-code ml-1">(Logged: 8h)</span>
+</div>
+<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 66.6%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm hover:shadow-md transition-all relative overflow-hidden flex flex-col gap-3">
+<div class="flex items-start justify-between gap-3">
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+              Critical
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+              In Progress
+            </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug">
+            PostgreSQL Database Schema Migration for Encrypted Payloads
+          </h4>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Run alembic migration to apply pg_crypto AES-256 columns for SSN and identity data.
+      </p>
+<div class="bg-surface-container-low rounded-lg p-3 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="Headshot of Priyah Patel, a confident South Asian female data engineer smiling warmly in modern corporate office with cool ambient blue tech lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6q1Hrsmw8stN1KSSJcYl4YxWUBqXNHgotrYf4KVJrYjksJBMazebB8LeWyIeBGwinBdUJDV3ut4K4BTxbMVw8V54foGZ2ZAK9cE0SRn9pYs3zwJ32hMgIgWL9-BWZcXJvBFdcTURyWp_Oof8DllOHGWM_iVRznSRtGv7wQzhtUZM19Y8w8-6DuqajDbIVsBGwaziSyfO-L2I7YpvWH9eyyPMWf2ef7WTNwr1d-aI"/>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Priyah Patel</span>
+<span class="font-caption-code text-caption-code text-on-surface-variant">Data Engineer</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-caption-code text-caption-code">
+<span class="material-symbols-outlined text-[15px]">event</span>
+<span>Nov 10, 2025</span>
+</div>
+</div>
+<div class="pt-1 flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Est:</span>
+<span class="font-semibold text-on-surface">18 hrs</span>
+<span class="text-on-surface-variant font-caption-code text-caption-code ml-1">(Logged: 4h)</span>
+</div>
+<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 22.2%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Item 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm hover:shadow-md transition-all relative overflow-hidden flex flex-col gap-3">
+<div class="flex items-start justify-between gap-3">
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+              Medium
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm">
+              To Do
+            </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug">
+            Timeout Configuration Cap (4000ms) &amp; Redis Cache Layer
+          </h4>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Deploy Redis cluster node for instant identity session validation.
+      </p>
+<div class="bg-surface-container-low rounded-lg p-3 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="Headshot of Alex Rivera, a Hispanic male DevOps specialist in charcoal hoodie looking into the camera in high-tech server operations background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnoq2uhnmpfLJSD1v5870GiCtOG6Jlmr7kw6xEYJ3ZYYRXfQ0uHR8eVjShrWD6qE9iUKRYOWTd8jM_Nt8WKyx-NHA2bqW9wg1WzIuyLPS8ie2Sgh-9pH5cq2_HOvy4pcDNZdO1zGRIoqaqDEb99izgjZUV-h-F_qYgYxL6TuiXRdVQxMyn23YjHaArueTxH81KNxOjooND3c71Ea-55Gmr8hpXnFMCEl_tcMwi34E"/>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Alex Rivera</span>
+<span class="font-caption-code text-caption-code text-on-surface-variant">DevOps / Infra</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-caption-code text-caption-code">
+<span class="material-symbols-outlined text-[15px]">event</span>
+<span>Nov 14, 2025</span>
+</div>
+</div>
+<div class="pt-1 flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Est:</span>
+<span class="font-semibold text-on-surface">8 hrs</span>
+<span class="text-on-surface-variant font-caption-code text-caption-code ml-1">(Logged: 0h)</span>
+</div>
+<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 0%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Item 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm hover:shadow-md transition-all relative overflow-hidden flex flex-col gap-3">
+<div class="flex items-start justify-between gap-3">
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+              Medium
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+              Backlog
+            </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug">
+            End-to-End Client Sandbox Verification Suite
+          </h4>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Write Cypress integration tests to validate webhook replay alerts.
+      </p>
+<div class="bg-surface-container-low rounded-lg p-3 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<img class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="Professional portrait of Maya Lin, East Asian QA automation engineer in clean casual attire with subtle smile in well-lit architectural workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKBRKQgYxzDIlQhkjTqggCpGP9YDRCVcEd9O9IKxI0JhH3Kyiw5BNqX54MMr1aQvSnfkv0k4aedoPnQ6hXmxDYlgMVFZpw802qYCFTGU-UXwY5sCEeG5WdHbr4UEQ8bOTehtHu4gWxJHxCdrwJIgPu7yesUMRAsckDjf_I6P7LsPDOlXql8n_w_KjX2EM5LaGhMcWcb3_hKv_uHzj5CTm0Vxc1cYhMMuRkCxFOOjU"/>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Maya Lin</span>
+<span class="font-caption-code text-caption-code text-on-surface-variant">QA Automation</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-caption-code text-caption-code">
+<span class="material-symbols-outlined text-[15px]">event</span>
+<span>Nov 16, 2025</span>
+</div>
+</div>
+<div class="pt-1 flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Est:</span>
+<span class="font-semibold text-on-surface">10 hrs</span>
+<span class="text-on-surface-variant font-caption-code text-caption-code ml-1">(Logged: 0h)</span>
+</div>
+<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 0%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Sync Action Dock / Sticky Assistant Footer -->
+<div class="px-space-md pt-6">
+<div class="bg-gradient-to-r from-primary via-primary-container to-tertiary p-4 rounded-xl shadow-lg text-on-primary relative overflow-hidden flex flex-col gap-3">
+<!-- Glow effect -->
+<div class="absolute right-0 top-0 translate-x-4 -translate-y-4 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-white">sync</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-semibold tracking-wide">Transcript sync source: Meeting Oct 24</span>
+<p class="font-body-sm text-body-sm text-on-primary-container leading-tight mt-0.5">
+            NovaWorks AI extracted 14 tasks with automated time estimates and developer assignments.
+          </p>
+</div>
+</div>
+<button class="w-full py-2.5 px-4 rounded-lg bg-surface-container-lowest text-primary font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 hover:bg-surface-container-low transition-all active:scale-[0.98] shadow-sm" id="rescan-btn" onclick="triggerRescan()">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+<span>Re-scan transcript for changes</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  function triggerRescan() {
+    const btn = document.getElementById('rescan-btn');
+    if (!btn) return;
+    const originalContent = btn.innerHTML;
+    btn.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Analyzing Audio & Diffing Tasks...</span>`;
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = `<span class="material-symbols-outlined text-[18px] text-primary">check_circle</span><span>Sync Complete (No New Deltas)</span>`;
+      setTimeout(() => {
+        btn.innerHTML = originalContent;
+        btn.disabled = false;
+      }, 2500);
+    }, 1400);
+  }
+</script></main></body></html>
