@@ -4,18 +4,7 @@ import { prisma } from './db.js';
 export class PrismaSessionStore extends session.Store {
   constructor() {
     super();
-    // Periodically clean up expired sessions every 15 minutes
-    setInterval(async () => {
-      try {
-        await prisma.session.deleteMany({
-          where: {
-            expiresAt: { lt: new Date() },
-          },
-        });
-      } catch (e) {
-        // ignore background cleanup error
-      }
-    }, 15 * 60 * 1000).unref();
+
   }
 
   async get(sid, callback) {
