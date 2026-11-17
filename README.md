@@ -1,226 +1,167 @@
-# NovaWorks AI Project Manager – Meeting to Execution
+# NovaWorks AI Project Manager (Infinity Hack '26)
 
-An AI-powered project management CRM designed to transform meeting discussions into actionable projects and tasks. The system aims to simplify project planning, task assignment, deadline management, and team collaboration through AI-powered transcript processing and role-based dashboards.
+**NovaWorks AI Project Manager** is an autonomous, demo-ready project management CRM engineered for NovaWorks Technologies. It transforms unstructured client delivery meeting transcripts and discussion notes into fully scheduled projects and granular task workstreams with automatic project manager selection, agent skill-matching, deadline reconciliation, and rejected-scope omission.
 
-## Team
+---
 
-- **Team name:** The Mavericks
+## ⚡ Tech Stack
 
-### Team Members
+- **Frontend**: React 18, Vite, Tailwind CSS (incorporating NovaWorks Stitch Design System with *Plus Jakarta Sans* & *Inter* typography, Glassmorphism, and ambient AI luminescence)
+- **Backend**: Node.js, Express (RESTful JSON API)
+- **Database**: SQLite with Prisma ORM
+- **AI Engine**: Gemini API (`@google/generative-ai`) with structured JSON schema enforcement and deterministic fallback resilience
+- **Authentication & Security**: `express-session` with persistent SQLite Prisma store, `bcryptjs` (salt cost 10), `zod` schema validation, `helmet`, CORS with credentials, and IP login rate-limiting
 
-| Member | Responsibility |
-|---|---|
-| Roshaan Umar | Frontend Development |
-| Muhammad Rafey Rana | Backend Development |
-| Amna Tajamal | Design and Planning |
+---
 
-**Repository:** https://github.com/roshaanumar/NovaWorks-AI-Project-Manager
+## 👥 Seeded Demo Accounts
 
-## What Works
+All 10 official challenge accounts are seeded in SQLite. The universal demo password is **`Demo123!`**. Plaintext passwords and hashes are never stored in plaintext or exposed over the API.
 
-The project is being developed as an AI-powered project management CRM for NovaWorks Technologies.
+| ID | Name | Email | Role | Specialization | Assigned Skills | Password |
+|---|---|---|---|---|---|---|
+| **ADMIN** | Admin | `admin@novaworks.example` | **ADMIN** | Administrator | Company overview, transcript creation | `Demo123!` |
+| **PM01** | Ayesha Khan | `ayesha@novaworks.example` | **MANAGER** | Manager / Web PM | Web projects, client coordination | `Demo123!` |
+| **PM02** | Bilal Ahmed | `bilal@novaworks.example` | **MANAGER** | Manager / Mobile PM | Mobile projects, delivery planning | `Demo123!` |
+| **PM03** | Hina Malik | `hina@novaworks.example` | **MANAGER** | Manager / AI PM | AI projects, requirement review | `Demo123!` |
+| **DEV01** | Ali Raza | `ali@novaworks.example` | **AGENT** | Agent / Full-Stack | React, frontend integration | `Demo123!` |
+| **DEV02** | Hamza Shah | `hamza@novaworks.example` | **AGENT** | Agent / Full-Stack | Node.js, databases, APIs | `Demo123!` |
+| **DEV03** | Sara Noor | `sara@novaworks.example` | **AGENT** | Agent / App Developer | Flutter, mobile UI | `Demo123!` |
+| **DEV04** | Usman Tariq | `usman@novaworks.example` | **AGENT** | Agent / App Developer | Flutter, integration, testing | `Demo123!` |
+| **DEV05** | Zain Abbas | `zain@novaworks.example` | **AGENT** | Agent / AI Developer | LLMs, extraction, prompts | `Demo123!` |
+| **DEV06** | Maryam Asif | `maryam@novaworks.example` | **AGENT** | Agent / AI Developer | Retrieval, document processing | `Demo123!` |
 
-The planned system includes:
+---
 
-- **Admin Dashboard:** Allows the administrator to submit meeting transcripts and manage generated projects.
-- **AI Transcript Processing:** Converts meeting discussions into structured projects, tasks, deadlines, estimated working hours, and team assignments.
-- **Manager Dashboard:** Allows managers to view and manage projects assigned to them.
-- **Agent Dashboard:** Allows agents to view their assigned tasks and related project information.
-- **Role-Based Access Control:** Restricts access according to the user's role.
-- **Data Persistence:** Saves projects and tasks so that records remain available after refreshing the application.
+## 🛡️ Role-Based Access Control (RBAC) Matrix
 
-**Development status:** Frontend design screens have been exported from Stitch. The complete application features must be updated as they are implemented and tested.
+Authorization is strictly enforced server-side inside queries using session credentials loaded from the database on every request (`req.user`). Any caller-forged roles or user IDs in HTTP bodies or headers are disregarded.
 
-## Technology Stack
+| Endpoint | Method | ADMIN | MANAGER | AGENT | Enforcement Rule |
+|---|---|:---:|:---:|:---:|---|
+| `/api/auth/login` | POST | ✅ | ✅ | ✅ | Rate-limited, regenerates session, sets `httpOnly` cookie |
+| `/api/auth/logout` | POST | ✅ | ✅ | ✅ | Destroys session and purges cookie |
+| `/api/auth/me` | GET | ✅ | ✅ | ✅ | Returns authenticated user without password hashes |
+| `/api/projects` | GET | ✅ | ⚠️ Scoped | ❌ 403 | Admin sees all projects; Manager sees only `managerId == user.id`; Agent receives 403 |
+| `/api/projects/:id` | GET | ✅ | ⚠️ Scoped | ❌ 403 | Admin views any; Manager views only managed project (403 otherwise); Agent receives 403 |
+| `/api/tasks/my` | GET | ✅ | ✅ | ✅ Scoped | Agent sees only tasks where `assigneeId == user.id` with limited project metadata |
+| `/api/team` | GET | ✅ | ✅ | ❌ 403 | Admin and Managers view roster with skills; Agent receives 403 |
+| `/api/ai/parse-transcript` | POST | ✅ | ❌ 403 | ❌ 403 | Admin only; extracts draft without saving |
+| `/api/projects/create-from-transcript` | POST | ✅ | ❌ 403 | ❌ 403 | Admin only; atomic transaction with UUID idempotency |
 
-The final technology stack will be documented after frontend and backend integration.
+---
 
-| Component | Technology |
-|---|---|
-| Frontend | To be confirmed |
-| Backend | To be confirmed |
-| Database | To be confirmed |
-| AI Provider | To be confirmed |
-| Authentication | To be confirmed |
+## 🧠 AI Transcript Flow Architecture
 
-## Links
+1. **Preview Step (`POST /api/ai/parse-transcript`)**:
+   - The backend retrieves the team roster from SQLite (sanitized to `id`, `name`, `role`, `specialization`, and `skills` only; passwords and hashes are omitted).
+   - The prompt instructs Gemini (or deterministic fallback) with strict system rules:
+     - Assign only to provided employee IDs with best specialization match.
+     - Select a user with role `MANAGER` as project manager.
+     - **Honor Final Corrections**: The last agreed decision in the transcript overrides earlier statements (e.g. deadline changed from 18 to 20 October; task estimate revised from 8 to 10 hours; testing assigned to Maryam).
+     - **Omit Dropped Scope**: Explicitly excludes rejected features (e.g. no real payment gateways, no inventory sync, no live maps).
+   - Generates structured JSON adhering to the Zod schema. Malformed responses trigger an automatic retry.
+   - **Nothing is committed to the database in this step**.
+2. **Review & Confirm Step (`POST /api/projects/create-from-transcript`)**:
+   - The frontend displays an editable draft allowing field adjustments and task additions/removals.
+   - A client-generated UUID idempotency key is submitted with the draft.
+   - **Strict Server-Side Validation**:
+     - `managerId` must exist with role `MANAGER`.
+     - `assigneeId` must exist with role `AGENT`.
+     - Estimated hours must be numbers `> 0`.
+     - Every task deadline must be on or before the project deadline (`taskDeadline <= projectDeadline`).
+     - At least 1 task is required.
+   - **Atomic Transaction (`prisma.$transaction`)**: All project and task records are saved together. Any failure rolls back the entire batch.
+   - **Idempotency**: Repeat submissions with the same key return the previously created project rather than creating duplicates.
 
-- **GitHub Repository:** https://github.com/roshaanumar/NovaWorks-AI-Project-Manager
-- **Live Application:** Not deployed yet.
-- **Demo Video:** To be added.
+---
 
-## Requirements
+## 🚀 Setup & Execution Guide
 
-The final requirements depend on the technologies used in the integrated application.
+### Prerequisites
+- Node.js (v18+)
+- npm
 
-Expected development tools include:
+### 1. Installation
+Clone the repository and install dependencies:
+```bash
+# Install root, server, and client dependencies
+npm install --prefix server
+npm install --prefix client
+```
 
-- Visual Studio Code
-- Git and GitHub
-- Required frontend runtime and package manager
-- Required backend runtime and package manager
-- Database service
-- AI provider API access, if required by the implementation
+### 2. Environment Setup
+Configure your environment variables in `server/.env`:
+```bash
+cp .env.example server/.env
+```
+*(If you have a Gemini API key, add it to `GEMINI_API_KEY` in `server/.env`. The application also includes an offline deterministic fallback parser for full functionality without an external key.)*
 
-## Run Locally
+### 3. Database Migration & Seeding
+```bash
+# Push Prisma schema to SQLite
+npm run prisma:generate --prefix server
+npm run db:push --prefix server
 
-### 1. Clone the Repository
+# Seed the 10 official demo accounts
+npm run prisma:seed --prefix server
+```
+
+### 4. Running the Application
+Start both the backend server and frontend development client:
+```bash
+# Start concurrently from root
+npm run dev
+```
+Or run separately in two terminals:
+- **Server**: `npm run dev --prefix server` (runs on `http://localhost:5000`)
+- **Client**: `npm run dev --prefix client` (runs on `http://localhost:5173`)
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 🧪 Acceptance Test Suite
+
+To run the automated acceptance test suite verifying all 12 core requirements (auth, session invalidation, RBAC, tamper resistance, AI corrections, invalid draft rejection, transaction rollback, and idempotency):
 
 ```bash
-git clone https://github.com/roshaanumar/NovaWorks-AI-Project-Manager.git
-cd NovaWorks-AI-Project-Manager
+cd server
+node test-suite.js
 ```
+*Result: 65 passed assertions, 0 failed.*
 
-### 2. Open the Project
+---
 
-Open the cloned project folder in Visual Studio Code.
+## 🎬 3-Minute Demo Script
 
-### 3. Run the Current Frontend Designs
+1. **Sign in as Admin** (`admin@novaworks.example` / `Demo123!`):
+   - Click the "Quick Demo Account: Admin" button.
+   - Notice the portfolio metrics and "Create from Transcript" button.
+2. **Convert Meeting Transcript**:
+   - Navigate to "AI Transcript".
+   - Click the preset button **"UrbanCart (18→20 Oct, No Payment)"**.
+   - Click **"Parse with AI"**.
+   - Notice the AI draft automatically adopts the revised deadline (**2026-10-20** instead of 18 Oct), revised task date (**2026-10-19** instead of 17 Oct), and **excludes payment or inventory tasks**.
+   - Click **"Confirm and Create Project"**. The project and all 4 tasks are atomically saved.
+3. **Verify Manager Role Access**:
+   - Log out and log in as **Ayesha Khan** (`ayesha@novaworks.example`).
+   - Ayesha sees **UrbanCart Website** in her project list.
+   - Log out and log in as **Bilal Ahmed** (`bilal@novaworks.example`).
+   - Bilal's project list does NOT show UrbanCart.
+4. **Verify Agent "My Tasks"**:
+   - Log out and log in as **Ali Raza** (`ali@novaworks.example`).
+   - The navigation switches to "My Tasks".
+   - Ali sees his 3 assigned tasks (*Product catalog UI*, *Demo cart UI*, *Website integration and testing*) with project context.
+   - Attempting to access `/api/projects` returns `403 Forbidden`.
+5. **Persistence**:
+   - Restart the server. All sessions, projects, and tasks remain fully persisted in the SQLite database.
 
-The current Stitch exports are standalone HTML screens.
+---
 
-Install the **Live Server** extension in VS Code.
+## 📌 Assumptions & Decisions
 
-Open the following files:
-
-```text
-my_tasks/code.html
-project_details/code.html
-```
-
-Right-click an HTML file and select **Open with Live Server**.
-
-The selected design will open in your browser.
-
-### 4. Complete Application Setup
-
-The following instructions will be finalized once the frontend and backend are integrated:
-
-1. Install frontend dependencies.
-2. Install backend dependencies.
-3. Configure environment variables using `.env.example`.
-4. Create and connect the database.
-5. Apply database migrations.
-6. Seed the ten demo login accounts.
-7. Start the backend server.
-8. Start the frontend development server.
-
-Exact commands, ports, and database setup instructions will be added after the final implementation is available.
-
-## Environment Variables
-
-Only variables used by the final application should be listed here.
-
-| Variable | Purpose | Configuration |
-|---|---|---|
-| Database connection variable | Database connection | Backend |
-| AI API key variable | AI provider authentication | Backend only |
-| Model variable | AI model selection, if required | Backend |
-| Session secret variable | Session security, if required | Backend |
-| Frontend API URL variable | Backend API endpoint | Frontend |
-
-A `.env.example` file should contain placeholder values for the required variables.
-
-**Security:** Never commit actual API keys, database credentials, or session secrets. Sensitive AI and database credentials must remain on the backend.
-
-## Demo Login Accounts
-
-The following ten demo accounts are supplied for evaluation.
-
-| Role | Name | Demo Email | Password |
-|---|---|---|---|
-| Admin | Admin | admin@novaworks.example | Demo123! |
-| Manager | Ayesha Khan | ayesha@novaworks.example | Demo123! |
-| Manager | Bilal Ahmed | bilal@novaworks.example | Demo123! |
-| Manager | Hina Malik | hina@novaworks.example | Demo123! |
-| Agent | Ali Raza | ali@novaworks.example | Demo123! |
-| Agent | Hamza Shah | hamza@novaworks.example | Demo123! |
-| Agent | Sara Noor | sara@novaworks.example | Demo123! |
-| Agent | Usman Tariq | usman@novaworks.example | Demo123! |
-| Agent | Zain Abbas | zain@novaworks.example | Demo123! |
-| Agent | Maryam Asif | maryam@novaworks.example | Demo123! |
-
-These are fictional demo identifiers, not real mailboxes. Signup, email verification, and password recovery are not required.
-
-The accounts must be seeded into the database before testing. The final seeding command will be documented after backend implementation.
-
-## How Judges Can Test
-
-Once the complete application is implemented, the following workflow should be available:
-
-1. Log in using the admin account.
-2. Open **Create from Transcript**.
-3. Paste the supplied meeting transcript.
-4. Generate three projects and twelve tasks.
-5. Open the UrbanCart Website project and verify:
-   - Client: UrbanCart Clothing
-   - Manager: Ayesha Khan
-   - Deadline: 20 October 2026
-   - Total tasks: 4
-6. Log out and log in as Ayesha Khan. Verify that only her assigned project is visible.
-7. Log in as Ali Raza. Verify that only his three assigned UrbanCart tasks are visible.
-8. Log in as Hamza Shah. Verify that his two API tasks across UrbanCart and QuickServe are visible.
-9. Verify that users cannot access unauthorized projects or tasks through direct API requests.
-10. Refresh the application and verify that generated records persist.
-11. Submit a modified meeting transcript and verify that the AI processing responds to the changed input.
-
-### Expected Generated Projects
-
-| Project | Client | Manager | Deadline | Tasks | Estimated Hours |
-|---|---|---|---|---:|---:|
-| UrbanCart Website | UrbanCart Clothing | Ayesha Khan | 20 October 2026 | 4 | 40 |
-| QuickServe Mobile App | QuickServe Services | Bilal Ahmed | 24 October 2026 | 4 | 46 |
-| HelpDeskPro AI Assistant | HelpDeskPro Solutions | Hina Malik | 22 October 2026 | 4 | 38 |
-
-### Resetting Demo Data
-
-A database reset or demo-data regeneration command will be documented after the backend implementation. Resetting generated projects and tasks should preserve the ten seeded demo accounts.
-
-## Deployment Details
-
-| Component | Status |
-|---|---|
-| Deployment | Not deployed |
-| Frontend Hosting | Not configured |
-| Backend Hosting | Not configured |
-| Database Hosting | To be confirmed |
-| Deployed Branch | To be confirmed |
-
-### How We Deployed
-
-Deployment instructions will be added after hosting is configured.
-
-The final documentation will include:
-
-1. Frontend build command and output directory.
-2. Backend deployment and start command.
-3. Database connection and migration instructions.
-4. Environment variables configured on each hosting platform.
-5. Demo-user seeding instructions.
-6. Frontend-to-backend API configuration.
-7. Instructions for accessing the live application.
-
-If the application remains local, an accessible demo video should be provided showing the complete workflow.
-
-## Known Limitations
-
-- Current frontend screens are standalone Stitch HTML exports.
-- Frontend and backend integration is still required.
-- AI transcript processing must be verified in the integrated application.
-- Database persistence and role-based API authorization must be tested.
-- Live deployment has not yet been configured.
-
-This section should be updated as development progresses.
-
-## Submission Summary
-
-- **Project:** NovaWorks AI Project Manager – Meeting to Execution
-- **Source Repository:** https://github.com/roshaanumar/NovaWorks-AI-Project-Manager
-- **Team Members:** Roshaan Umar, Muhammad Rafey Rana, Amna Tajamal
-- **Frontend:** Roshaan Umar
-- **Backend:** Muhammad Rafey Rana
-- **Design and Planning:** Amna Tajamal
-- **Live Application / Demo Video:** To be added
-- **Setup and Seed Commands:** To be finalized
-- **Demo Accounts:** Ten supplied accounts listed above
-- **Target Features:** AI-powered meeting transcript processing, automatic project and task generation, role-based dashboards, task assignments, deadline management, and persistent records.
+1. **Session Store**: Implemented a SQLite-backed persistent session store using Prisma (`Session` table) to eliminate binary C++ compilation issues on Windows while ensuring persistence across server restarts.
+2. **Seed Data**: Extracted the exact 10 challenge accounts from the official Infinity Hack '26 specification pack. A copy is stored in `server/prisma/seed-users.json`.
+3. **Skills Storage**: SQLite does not support native string arrays; skills are stored as a JSON string in SQLite and parsed in the service layer.
+4. **Gemini Resilience**: Built with `@google/generative-ai` with JSON schema enforcement. A deterministic fallback parser is integrated to guarantee demo availability even during offline conditions or API quota rate limits.

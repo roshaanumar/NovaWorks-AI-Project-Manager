@@ -1,0 +1,12 @@
+node_modules/
+*/node_modules/
+.env
+*/.env
+dist/
+*/dist/
+*.log
+*.db
+*.db-journal
+novaworks/
+.DS_Store
+Thumbs.db
