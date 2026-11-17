@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>NovaWorks AI Project Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="/tw-config.js"></script>
+<style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400}::-webkit-scrollbar{display:none}</style>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen">
+<div id="app"></div>
+<script>
+const $app = document.getElementById('app');
+let me = null, busy = false;
+const DEMO = [['admin','Admin'],['ayesha','Ayesha (PM)'],['bilal','Bilal (PM)'],['hina','Hina (PM)'],['ali','Ali'],['hamza','Hamza'],['sara','Sara'],['usman','Usman'],['zain','Zain'],['maryam','Maryam']];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate = d => { if (!d) return '—'; const [y,m,x] = d.split('-').map(Number); return `${x} ${MON[m-1]} ${y}`; };
+const fmtH = h => `${Math.round(h*10)/10}h`;
+const icon = (n, c='') => `<span class="material-symbols-outlined ${c}">${n}</span>`;
+const initials = n => n.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+const spinner = icon('progress_activity', 'animate-spin text-[18px]');
+
+async function api(path, opts = {}) {
+  const r = await fetch('/api' + path, { credentials: 'same-origin', headers: {'Content-Type':'application/json'}, ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(data.error || r.statusText); e.status = r.status; e.data = data; throw e; }
+  return data;
+}
+
+/* ---------- shell ---------- */
+function shell(inner, active) {
+  const agent = me.role === 'AGENT';
+  const tabs = [
+    ...(agent ? [['tasks','My Tasks','task_alt']] : []),
+    ['projects', agent ? 'Related projects' : 'Projects', 'folder_open'],
+    ['team','Team','groups'],
+    ...(me.role === 'ADMIN' ? [['transcript','Create from Transcript','auto_awesome']] : []),
+  ];
+  $app.innerHTML = `
+  <header class="sticky top-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="max-w-3xl mx-auto h-16 px-4 flex items-center justify-between gap-3">
+      <a href="#/" class="flex items-center gap-2 min-w-0">
+        <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-tertiary-container flex items-center justify-center text-on-primary">${icon('hub','text-[20px]')}</span>
+        <span class="font-headline-sm text-headline-sm truncate">NovaWorks <span class="text-primary">AI</span></span>
+      </a>
+      <div class="flex items-center gap-3">
+        <div class="text-right leading-tight hidden sm:block"><div class="font-label-md text-label-md font-semibold">${esc(me.name)}</div><div class="font-caption-code text-caption-code text-on-surface-variant">${esc(me.role)}</div></div>
+        <div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-label-sm text-label-sm">${esc(initials(me.name))}</div>
+        <button id="logout" aria-label="Log out" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary">${icon('logout','text-[22px]')}</button>
+      </div>
+    </div>
+    <nav class="max-w-3xl mx-auto px-4 pb-2 flex gap-2 overflow-x-auto">
+      ${tabs.map(([k,l,i]) => `<a href="#/${k}" class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-label-md text-label-md whitespace-nowrap ${active===k ? 'bg-primary text-on-primary shadow-sm' : 'bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shadow-sm'}">${icon(i,'text-[18px]')}${l}</a>`).join('')}
+    </nav>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-5 pb-16">${inner}</main>`;
+  document.getElementById('logout').onclick = async () => { await api('/logout', {method:'POST'}).catch(()=>{}); me = null; location.hash = '#/login'; route(); };
+}
+const chip = (ic, txt, cls='bg-surface-container text-on-surface-variant') => `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm ${cls}">${icon(ic,'text-[14px]')}${txt}</span>`;
+const card = (inner, extra='') => `<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm ${extra}">${inner}</div>`;
+const errBox = msg => `<div class="rounded-xl bg-error-container text-on-error-container p-4 font-body-sm text-body-sm flex gap-2">${icon('error','text-[20px]')}<div>${msg}</div></div>`;
+
+/* ---------- login ---------- */
+function renderLogin() {
+  $app.innerHTML = `
+  <div class="min-h-screen flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-md">
+      <div class="flex items-center gap-3 mb-6 justify-center">
+        <span class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-tertiary-container flex items-center justify-center text-on-primary">${icon('hub','text-[26px]')}</span>
+        <div><div class="font-headline-md text-headline-md leading-tight">NovaWorks <span class="text-primary">AI</span></div><div class="font-body-sm text-body-sm text-on-surface-variant">Meeting to execution</div></div>
+      </div>
+      ${card(`
+        <h1 class="font-headline-lg text-headline-lg mb-4">Sign in</h1>
+        <div id="lerr" class="mb-3"></div>
+        <label class="block font-label-md text-label-md mb-1">Email</label>
+        <input id="email" type="email" autocomplete="username" class="w-full mb-3 rounded-lg border border-outline-variant bg-surface px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="admin@novaworks.example"/>
+        <label class="block font-label-md text-label-md mb-1">Password</label>
+        <input id="pw" type="password" autocomplete="current-password" class="w-full mb-4 rounded-lg border border-outline-variant bg-surface px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary"/>
+        <button id="lbtn" class="w-full py-2.5 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 active:scale-[0.98] transition">Log in</button>
+      `, 'p-6')}
+      <div class="mt-4 font-caption-code text-caption-code text-on-surface-variant text-center">Demo accounts (password <b>Demo123!</b>) — tap to fill</div>
+      <div class="mt-2 flex flex-wrap gap-2 justify-center">${DEMO.map(([k,l]) => `<button data-u="${k}" class="demo px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant hover:text-primary font-label-sm text-label-sm">${l}</button>`).join('')}</div>
+    </div>
+  </div>`;
+  const email = document.getElementById('email'), pw = document.getElementById('pw'), btn = document.getElementById('lbtn');
+  document.querySelectorAll('.demo').forEach(b => b.onclick = () => { email.value = `${b.dataset.u}@novaworks.example`; pw.value = 'Demo123!'; });
+  const go = async () => {
+    btn.disabled = true; btn.innerHTML = spinner + 'Signing in…';
+    try { me = (await api('/login', {method:'POST', body:{email: email.value, password: pw.value}})).user; location.hash = me.role === 'AGENT' ? '#/tasks' : '#/projects'; route(); }
+    catch (e) { document.getElementById('lerr').innerHTML = errBox(esc(e.message)); btn.disabled = false; btn.textContent = 'Log in'; }
+  };
+  btn.onclick = go; pw.onkeydown = e => { if (e.key === 'Enter') go(); };
+}
+
+/* ---------- projects ---------- */
+async function renderProjects() {
+  shell(`<div class="text-on-surface-variant">${spinner} Loading…</div>`, 'projects');
+  try {
+    const { projects } = await api('/projects');
+    const agent = me.role === 'AGENT';
+    const cta = me.role === 'ADMIN' ? `
+      <a href="#/transcript" class="block mb-5 bg-gradient-to-r from-primary via-primary-container to-tertiary p-4 rounded-xl shadow-lg text-on-primary">
+        <div class="flex items-center gap-3"><span class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">${icon('auto_awesome')}</span>
+        <div class="flex-1"><div class="font-headline-sm text-headline-sm">Create from Transcript</div><div class="font-body-sm text-body-sm text-on-primary-container">Paste a meeting and let AI create projects, tasks, owners, deadlines and hours.</div></div>${icon('arrow_forward')}</div>
+      </a>` : '';
+    const title = me.role === 'ADMIN' ? 'All projects' : me.role === 'MANAGER' ? 'Your projects' : 'Projects you have tasks in';
+    const list = projects.length ? projects.map(p => `
+      <a href="#/projects/${esc(p.id)}" class="block">${card(`
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0"><h3 class="font-headline-md text-headline-md leading-snug">${esc(p.name)}</h3>
+          <div class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">${icon('domain','text-[16px]')}${esc(p.clientName)}</div></div>
+          ${icon('chevron_right','text-outline')}
+        </div>
+        <div class="flex flex-wrap gap-2 mt-3">
+          ${chip('person_pin', esc(p.managerName), 'bg-primary-fixed text-on-primary-fixed')}
+          ${chip('event', 'Due ' + fmtDate(p.deadline))}
+          ${chip('checklist', `${p.taskCount} ${agent ? 'of your ' : ''}task${p.taskCount===1?'':'s'}`)}
+          ${chip('schedule', fmtH(p.totalHours))}
+        </div>`, 'hover:shadow-md transition-all')}</a>`).join('')
+      : card(`<div class="text-center text-on-surface-variant py-6">${icon('inbox','text-[36px]')}<div class="mt-1">${me.role==='ADMIN' ? 'No projects yet. Use Create from Transcript to generate them.' : 'Nothing assigned to you yet.'}</div></div>`);
+    shell(`${cta}<h2 class="font-headline-lg text-headline-lg mb-3">${title}</h2><div class="flex flex-col gap-3.5">${list}</div>`, 'projects');
+  } catch (e) { shell(errBox(esc(e.message)), 'projects'); }
+}
+
+const taskCard = t => card(`
+  <h4 class="font-headline-sm text-headline-sm leading-snug">${esc(t.title)}</h4>
+  ${t.description ? `<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">${esc(t.description)}</p>` : ''}
+  <div class="bg-surface-container-low rounded-lg p-3 mt-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2 min-w-0">
+      <div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-label-sm text-label-sm shrink-0">${esc(initials(t.assigneeName || ''))}</div>
+      <span class="font-label-md text-label-md font-semibold truncate">${esc(t.assigneeName || '')}</span>
+    </div>
+    <div class="flex items-center gap-3 font-caption-code text-caption-code text-on-surface-variant shrink-0">
+      <span class="inline-flex items-center gap-1">${icon('event','text-[15px]')}${fmtDate(t.deadline)}</span>
+      <span class="inline-flex items-center gap-1 text-on-surface font-semibold">${icon('schedule','text-[15px]')}${fmtH(t.estimatedHours)}</span>
+    </div>
+  </div>`);
+
+async function renderProject(id) {
+  shell(`<div class="text-on-surface-variant">${spinner} Loading…</div>`, 'projects');
+  try {
+    const { project: p } = await api('/projects/' + encodeURIComponent(id));
+    const agent = me.role === 'AGENT';
+    shell(`
+      <a href="#/projects" class="inline-flex items-center gap-1.5 py-1 px-2.5 mb-4 rounded-full bg-surface-container-low text-primary font-label-md text-label-md">${icon('arrow_back','text-[18px]')}Back to Projects</a>
+      ${card(`
+        <h2 class="font-headline-lg text-headline-lg tracking-tight mb-2">${esc(p.name)}</h2>
+        <div class="flex flex-col gap-1 text-on-surface-variant font-body-sm text-body-sm mb-3">
+          <div class="flex items-center gap-1.5">${icon('domain','text-[16px] text-secondary')}Client: <strong class="text-on-surface">${esc(p.clientName)}</strong></div>
+          <div class="flex items-center gap-1.5">${icon('person_pin','text-[16px] text-secondary')}Manager: <strong class="text-on-surface">${esc(p.managerName)}</strong></div>
+        </div>
+        ${p.description ? `<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">${esc(p.description)}</p>` : ''}
+        <div class="grid grid-cols-3 gap-2 bg-surface-container-low/70 rounded-lg p-2.5 text-center">
+          <div><div class="font-caption-code text-caption-code text-on-surface-variant uppercase">Deadline</div><div class="font-headline-sm text-headline-sm font-bold mt-0.5">${fmtDate(p.deadline)}</div></div>
+          <div><div class="font-caption-code text-caption-code text-on-surface-variant uppercase">${agent ? 'Your tasks' : 'Tasks'}</div><div class="font-headline-sm text-headline-sm font-bold mt-0.5">${p.tasks.length}</div></div>
+          <div><div class="font-caption-code text-caption-code text-on-surface-variant uppercase">Est. hours</div><div class="font-headline-sm text-headline-sm font-bold mt-0.5 text-primary">${fmtH(p.totalHours)}</div></div>
+        </div>`)}
+      <h3 class="font-headline-md text-headline-md mt-6 mb-3">${agent ? 'Your tasks' : 'Tasks'}</h3>
+      <div class="flex flex-col gap-3.5">${p.tasks.map(taskCard).join('') || card('<div class="text-on-surface-variant">No tasks.</div>')}</div>`, 'projects');
+  } catch (e) {
+    shell(`<a href="#/projects" class="text-primary font-label-md">← Back to Projects</a><div class="mt-4">${errBox(esc(e.status === 403 ? 'You do not have access to this project.' : e.message))}</div>`, 'projects');
+  }
+}
+
+/* ---------- my tasks (agent) ---------- */
+async function renderMyTasks() {
+  shell(`<div class="text-on-surface-variant">${spinner} Loading…</div>`, 'tasks');
+  try {
+    const { tasks } = await api('/tasks/mine');
+    const total = tasks.reduce((s,t) => s + t.estimatedHours, 0);
+    const rows = tasks.map(t => card(`
+      <h4 class="font-headline-sm text-headline-sm leading-snug">${esc(t.title)}</h4>
+      <a href="#/projects/${esc(t.projectId)}" class="inline-flex items-center gap-1 mt-1 text-primary font-label-md text-label-md">${icon('folder_open','text-[16px]')}${esc(t.projectName)}</a>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">${esc(t.description)}</p>
+      <div class="flex flex-wrap gap-2 mt-3">
+        ${chip('person_pin', 'PM: ' + esc(t.managerName), 'bg-primary-fixed text-on-primary-fixed')}
+        ${chip('event', 'Due ' + fmtDate(t.deadline))}${chip('schedule', fmtH(t.estimatedHours))}
+      </div>`)).join('');
+    shell(`<div class="flex items-end justify-between mb-3"><h2 class="font-headline-lg text-headline-lg">My Tasks</h2>
+      <span class="font-caption-code text-caption-code text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full">${tasks.length} tasks · ${fmtH(total)}</span></div>
+      <div class="flex flex-col gap-3.5">${rows || card('<div class="text-center text-on-surface-variant py-6">No tasks assigned to you yet.</div>')}</div>`, 'tasks');
+  } catch (e) { shell(errBox(esc(e.message)), 'tasks'); }
+}
+
+/* ---------- team ---------- */
+async function renderTeam() {
+  shell(`<div class="text-on-surface-variant">${spinner} Loading…</div>`, 'team');
+  try {
+    const { team } = await api('/team');
+    const label = { ADMIN: 'Administrator', MANAGER: 'Project Manager', AGENT: 'Developer' };
+    shell(`<h2 class="font-headline-lg text-headline-lg mb-3">Team directory</h2>
+      <div class="flex flex-col gap-2.5">${team.map(u => card(`
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-label-md shrink-0">${esc(initials(u.name))}</div>
+          <div class="min-w-0 flex-1"><div class="font-headline-sm text-headline-sm">${esc(u.name)}</div><div class="font-body-sm text-body-sm text-on-surface-variant">${esc(u.specialization)}</div></div>
+          ${chip('badge', label[u.role])}
+        </div>`, 'py-3')).join('')}</div>`, 'team');
+  } catch (e) { shell(errBox(esc(e.message)), 'team'); }
+}
+
+/* ---------- transcript (admin) ---------- */
+function renderTranscript() {
+  if (me.role !== 'ADMIN') return shell(errBox('Only the administrator can create projects from a transcript.'), 'transcript');
+  shell(`
+    <h2 class="font-headline-lg text-headline-lg mb-1">Create from Transcript</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Paste the full meeting transcript. AI will create projects and tasks using the existing team directory.</p>
+    <textarea id="tx" rows="14" class="w-full rounded-xl border border-outline-variant bg-surface-container-lowest p-3 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Paste meeting transcript here…"></textarea>
+    <button id="go" class="mt-3 w-full py-3 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 active:scale-[0.98] transition disabled:opacity-70">${icon('auto_awesome','text-[18px]')}Create from Transcript</button>
+    <div id="out" class="mt-5"></div>`, 'transcript');
+  const tx = document.getElementById('tx'), go = document.getElementById('go'), out = document.getElementById('out');
+  const idle = `${icon('auto_awesome','text-[18px]')}Create from Transcript`;
+
+  const success = r => { out.innerHTML = card(`
+      <div class="flex items-center gap-2 text-primary font-headline-md text-headline-md">${icon('check_circle')}Created ${r.projectCount} project${r.projectCount===1?'':'s'} with ${r.taskCount} task${r.taskCount===1?'':'s'}</div>
+      <div class="flex flex-col gap-2 mt-3">${r.projects.map(p => `<a href="#/projects/${esc(p.id)}" class="flex items-center justify-between bg-surface-container-low rounded-lg px-3 py-2.5 hover:bg-surface-container"><span class="font-label-md text-label-md font-semibold">${esc(p.name)}</span><span class="text-on-surface-variant font-caption-code text-caption-code">${p.taskCount} tasks ${icon('chevron_right','text-[16px] align-middle')}</span></a>`).join('')}</div>
+      <a href="#/projects" class="mt-3 inline-block text-primary font-label-md text-label-md">View all projects →</a>`); };
+
+  const issues = (e) => {
+    const d = e.data || {};
+    out.innerHTML = errBox(`<div class="font-semibold mb-1">${esc(d.error || e.message)}</div>${d.issues ? `<ul class="list-disc ml-5 mt-1 space-y-0.5">${d.issues.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}`) +
+      (d.draft ? `<div class="mt-4"><label class="font-label-md text-label-md">Edit the AI draft (JSON), then re-validate</label>
+        <textarea id="draft" rows="14" spellcheck="false" class="mt-1 w-full rounded-xl border border-outline-variant bg-surface-container-lowest p-3 font-mono text-[12px] focus:outline-none focus:ring-2 focus:ring-primary">${esc(JSON.stringify(d.draft, null, 2))}</textarea>
+        <div id="derr" class="mt-2"></div>
+        <button id="recheck" class="mt-2 w-full py-2.5 rounded-lg bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2">${icon('rule','text-[18px]')}Re-validate &amp; save</button></div>` : '');
+    const rc = document.getElementById('recheck');
+    if (rc) rc.onclick = async () => {
+      if (busy) return; let draft;
+      try { draft = JSON.parse(document.getElementById('draft').value); } catch { return document.getElementById('derr').innerHTML = errBox('That is not valid JSON.'); }
+      busy = true; rc.disabled = true; rc.innerHTML = spinner + 'Validating…';
+      try { success(await api('/transcript/commit', {method:'POST', body:{draft}})); }
+      catch (e2) { e2.status === 422 ? issues(e2) : (out.innerHTML = errBox(esc(e2.message))); }
+      finally { busy = false; }
+    };
+  };
+
+  go.onclick = async () => {
+    if (busy) return;                       // blocks double-clicks
+    if (!tx.value.trim()) return out.innerHTML = errBox('Please paste a transcript first.');
+    busy = true; go.disabled = true; tx.disabled = true; out.innerHTML = '';
+    go.innerHTML = spinner + 'AI is reading the meeting… this can take up to a minute';
+    try { success(await api('/transcript', {method:'POST', body:{transcript: tx.value}})); }
+    catch (e) { e.status === 422 ? issues(e) : (out.innerHTML = errBox(esc(e.message))); }
+    finally { busy = false; go.disabled = false; tx.disabled = false; go.innerHTML = idle; }
+  };
+}
+
+/* ---------- router ---------- */
+async function route() {
+  if (!me) { try { me = (await api('/me')).user; } catch {} }
+  const parts = (location.hash.replace(/^#\/?/, '') || '').split('/');
+  if (!me) { if (parts[0] !== 'login') location.hash = '#/login'; return renderLogin(); }
+  const [a, id] = parts;
+  if (!a || a === 'login') { location.hash = me.role === 'AGENT' ? '#/tasks' : '#/projects'; return; }
+  if (a === 'projects') return id ? renderProject(id) : renderProjects();
+  if (a === 'tasks') return me.role === 'AGENT' ? renderMyTasks() : (location.hash = '#/projects');
+  if (a === 'team') return renderTeam();
+  if (a === 'transcript') return renderTranscript();
+  location.hash = '#/projects';
+}
+window.addEventListener('hashchange', () => { if (!busy) route(); });
+route();
+</script>
+</body></html>
