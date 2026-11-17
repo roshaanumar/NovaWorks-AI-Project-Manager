@@ -15,6 +15,9 @@ dotenv.config();
 
 export function createApp() {
   const app = express();
+  // Vercel terminates TLS and forwards the original client IP in X-Forwarded-For.
+  // Trust the single proxy hop so express-rate-limit can safely identify clients.
+  app.set('trust proxy', 1);
   const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
   const SESSION_SECRET = process.env.SESSION_SECRET || (process.env.NODE_ENV === 'production' ? null : 'local-development-only-session-secret');
   if (!SESSION_SECRET) throw new Error('SESSION_SECRET must be configured in production.');
